@@ -1,0 +1,549 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  VENDOR
+}
+
+enum EventType {
+  WEDDING
+  ENGAGEMENT
+  MEHNDI
+  RECEPTION
+  BIRTHDAY
+  CORPORATE
+  OTHER
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  PARTIAL
+  REFUNDED
+}
+
+// 1NF: User basic information
+model User {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  email       String   @unique
+  password    String
+  firstName   String
+  lastName    String
+  phone       String
+  role        UserRole @default(USER)
+  isVerified  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  profile       UserProfile?
+  bookings      Booking[]
+  reviews       Review[]
+  venues        Venue[]   @relation("VenueOwner")
+  caterers      Caterer[] @relation("CatererOwner")
+  notifications Notification[]
+  favorites     Favorite[]
+
+  @@map("users")
+}
+
+// 2NF: Separate user profile information
+model UserProfile {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @unique @db.ObjectId
+  avatar      String?
+  dateOfBirth DateTime?
+  gender      String?
+  address     String?
+  city        String?
+  country     String   @default("Pakistan")
+  preferences Json?    // Store user preferences as JSON
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+// 3NF: Separate cities for normalization
+model City {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @unique
+  province  String
+  country   String   @default("Pakistan")
+  latitude  Float?
+  longitude Float?
+  createdAt DateTime @default(now())
+
+  // Relations
+  areas               Area[]
+  venues              Venue[]
+  catererServiceAreas CatererServiceArea[]
+
+  @@map("cities")
+}
+
+// 3NF: Separate areas within cities
+model Area {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  cityId   String @db.ObjectId
+  postCode String?
+
+  // Relations
+  city     City     @relation(fields: [cityId], references: [id])
+  venues   Venue[]
+
+  @@unique([name, cityId])
+  @@map("areas")
+}
+
+// 3NF: Separate amenities for normalization
+model Amenity {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String @unique
+  description String?
+  icon        String?
+  category    String // e.g., "facility", "service", "equipment"
+
+  // Relations
+  venueAmenities VenueAmenity[]
+
+  @@map("amenities")
+}
+
+// 3NF: Junction table for venue amenities (many-to-many)
+model VenueAmenity {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  venueId   String @db.ObjectId
+  amenityId String @db.ObjectId
+
+  // Relations
+  venue     Venue   @relation(fields: [venueId], references: [id], onDelete: Cascade)
+  amenity   Amenity @relation(fields: [amenityId], references: [id])
+
+  @@unique([venueId, amenityId])
+  @@map("venue_amenities")
+}
+
+// 3NF: Separate cuisine types for normalization
+model Cuisine {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String @unique
+  description String?
+  origin      String?
+
+  // Relations
+  catererCuisines CatererCuisine[]
+
+  @@map("cuisines")
+}
+
+// 3NF: Junction table for caterer cuisines (many-to-many)
+model CatererCuisine {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  catererId String @db.ObjectId
+  cuisineId String @db.ObjectId
+
+  // Relations
+  caterer   Caterer @relation(fields: [catererId], references: [id], onDelete: Cascade)
+  cuisine   Cuisine @relation(fields: [cuisineId], references: [id])
+
+  @@unique([catererId, cuisineId])
+  @@map("caterer_cuisines")
+}
+
+// 2NF: Venue main information
+model Venue {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  description      String
+  address          String
+  cityId           String   @db.ObjectId
+  areaId           String   @db.ObjectId
+  capacity         Int
+  pricePerHour     Float?
+  pricePerDay      Float
+  isAirConditioned Boolean  @default(false)
+  contactPerson    String
+  contactPhone     String
+  contactEmail     String
+  latitude         Float?
+  longitude        Float?
+  isActive         Boolean  @default(true)
+  isApproved       Boolean  @default(false)
+  rating           Float    @default(0)
+  reviewCount      Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Relations
+  ownerId         String         @db.ObjectId
+  owner           User           @relation("VenueOwner", fields: [ownerId], references: [id])
+  city            City           @relation(fields: [cityId], references: [id])
+  area            Area           @relation(fields: [areaId], references: [id])
+  venueAmenities  VenueAmenity[]
+  images          VenueImage[]
+  bookings        Booking[]
+  reviews         Review[]
+  availability    VenueAvailability[]
+
+  @@map("venues")
+}
+
+// 3NF: Separate venue images
+model VenueImage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  venueId   String   @db.ObjectId
+  url       String
+  caption   String?
+  isPrimary Boolean  @default(false)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  // Relations
+  venue     Venue    @relation(fields: [venueId], references: [id], onDelete: Cascade)
+
+  @@map("venue_images")
+}
+
+// 3NF: Venue availability schedule
+model VenueAvailability {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  venueId   String   @db.ObjectId
+  date      DateTime
+  isAvailable Boolean @default(true)
+  timeSlots Json?    // Store available time slots as JSON
+  reason    String?  // Reason for unavailability
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  venue     Venue    @relation(fields: [venueId], references: [id], onDelete: Cascade)
+
+  @@unique([venueId, date])
+  @@map("venue_availability")
+}
+
+// 2NF: Caterer main information
+model Caterer {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  description    String
+  pricePerPerson Float
+  minimumOrder   Int
+  contactPerson  String
+  contactPhone   String
+  contactEmail   String
+  isActive       Boolean  @default(true)
+  isApproved     Boolean  @default(false)
+  rating         Float    @default(0)
+  reviewCount    Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relations
+  ownerId           String             @db.ObjectId
+  owner             User               @relation("CatererOwner", fields: [ownerId], references: [id])
+  catererCuisines   CatererCuisine[]
+  serviceAreas      CatererServiceArea[]
+  specialties       CatererSpecialty[]
+  images            CatererImage[]
+  menuItems         MenuItem[]
+  packages          CateringPackage[]
+  bookings          Booking[]
+  reviews           Review[]
+
+  @@map("caterers")
+}
+
+// 3NF: Caterer service areas (many-to-many with cities)
+model CatererServiceArea {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  catererId String @db.ObjectId
+  cityId    String @db.ObjectId
+
+  // Relations
+  caterer   Caterer @relation(fields: [catererId], references: [id], onDelete: Cascade)
+  city      City    @relation(fields: [cityId], references: [id])
+
+  @@unique([catererId, cityId])
+  @@map("caterer_service_areas")
+}
+
+// 3NF: Separate specialties for normalization
+model Specialty {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String @unique
+  description String?
+  category    String // e.g., "dish", "service", "dietary"
+
+  // Relations
+  catererSpecialties CatererSpecialty[]
+
+  @@map("specialties")
+}
+
+// 3NF: Junction table for caterer specialties
+model CatererSpecialty {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  catererId   String @db.ObjectId
+  specialtyId String @db.ObjectId
+
+  // Relations
+  caterer     Caterer   @relation(fields: [catererId], references: [id], onDelete: Cascade)
+  specialty   Specialty @relation(fields: [specialtyId], references: [id])
+
+  @@unique([catererId, specialtyId])
+  @@map("caterer_specialties")
+}
+
+// 3NF: Separate caterer images
+model CatererImage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  catererId String   @db.ObjectId
+  url       String
+  caption   String?
+  isPrimary Boolean  @default(false)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  // Relations
+  caterer   Caterer  @relation(fields: [catererId], references: [id], onDelete: Cascade)
+
+  @@map("caterer_images")
+}
+
+// 3NF: Menu items for caterers
+model MenuItem {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  catererId   String  @db.ObjectId
+  name        String
+  description String?
+  price       Float
+  category    String  // e.g., "appetizer", "main", "dessert", "beverage"
+  isVegetarian Boolean @default(false)
+  isVegan     Boolean @default(false)
+  isGlutenFree Boolean @default(false)
+  isAvailable Boolean @default(true)
+  image       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  caterer     Caterer @relation(fields: [catererId], references: [id], onDelete: Cascade)
+
+  @@map("menu_items")
+}
+
+// 3NF: Catering packages
+model CateringPackage {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  catererId   String  @db.ObjectId
+  name        String
+  description String
+  pricePerPerson Float
+  minimumGuests Int
+  maximumGuests Int?
+  includes    Json    // Array of included items/services
+  isActive    Boolean @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  caterer     Caterer @relation(fields: [catererId], references: [id], onDelete: Cascade)
+
+  @@map("catering_packages")
+}
+
+// 2NF: Booking main information
+model Booking {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  bookingNumber   String        @unique // Human-readable booking number
+  eventDate       DateTime
+  startTime       String
+  endTime         String
+  guestCount      Int
+  eventType       EventType
+  status          BookingStatus @default(PENDING)
+  totalAmount     Float
+  paymentStatus   PaymentStatus @default(PENDING)
+  specialRequests String?
+  notes           String?       // Internal notes
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // Relations
+  userId          String         @db.ObjectId
+  user            User           @relation(fields: [userId], references: [id])
+  venueId         String?        @db.ObjectId
+  venue           Venue?         @relation(fields: [venueId], references: [id])
+  catererId       String?        @db.ObjectId
+  caterer         Caterer?       @relation(fields: [catererId], references: [id])
+  payments        Payment[]
+  bookingItems    BookingItem[]
+
+  @@map("bookings")
+}
+
+// 3NF: Booking items (for detailed breakdown)
+model BookingItem {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  bookingId   String  @db.ObjectId
+  itemType    String  // "venue", "catering", "addon"
+  itemName    String
+  description String?
+  quantity    Int     @default(1)
+  unitPrice   Float
+  totalPrice  Float
+  createdAt   DateTime @default(now())
+
+  // Relations
+  booking     Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@map("booking_items")
+}
+
+// 2NF: Payment information
+model Payment {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  paymentNumber   String        @unique // Human-readable payment number
+  amount          Float
+  currency        String        @default("PKR")
+  status          PaymentStatus @default(PENDING)
+  paymentMethod   String?       // "stripe", "bank_transfer", "cash"
+  stripePaymentId String?
+  stripeSessionId String?
+  transactionId   String?
+  failureReason   String?
+  paidAt          DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // Relations
+  bookingId       String        @db.ObjectId
+  booking         Booking       @relation(fields: [bookingId], references: [id])
+
+  @@map("payments")
+}
+
+// 2NF: Review information
+model Review {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  rating      Int      // 1-5 stars
+  title       String?
+  comment     String
+  isVerified  Boolean  @default(false) // Verified purchase/booking
+  isApproved  Boolean  @default(true)  // Admin approval
+  helpfulCount Int     @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  userId      String   @db.ObjectId
+  user        User     @relation(fields: [userId], references: [id])
+  venueId     String?  @db.ObjectId
+  venue       Venue?   @relation(fields: [venueId], references: [id])
+  catererId   String?  @db.ObjectId
+  caterer     Caterer? @relation(fields: [catererId], references: [id])
+
+  @@map("reviews")
+}
+
+// 2NF: Contact form submissions
+model ContactForm {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  phone     String
+  subject   String
+  message   String
+  isRead    Boolean  @default(false)
+  response  String?  // Admin response
+  respondedAt DateTime?
+  respondedBy String? @db.ObjectId
+  createdAt DateTime @default(now())
+
+  @@map("contact_forms")
+}
+
+// 3NF: System settings and configurations
+model Setting {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  key       String   @unique
+  value     Json
+  category  String   // e.g., "general", "payment", "email", "sms"
+  isPublic  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}
+
+// 3NF: Notifications for users
+model Notification {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  title     String
+  message   String
+  type      String   // e.g., "booking", "payment", "review", "system"
+  isRead    Boolean  @default(false)
+  data      Json?    // Additional data for the notification
+  createdAt DateTime @default(now())
+
+  // Relations
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+// 3NF: Audit log for tracking changes
+model AuditLog {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String?  @db.ObjectId
+  action    String   // e.g., "CREATE", "UPDATE", "DELETE"
+  resource  String   // e.g., "venue", "booking", "user"
+  resourceId String? @db.ObjectId
+  oldData   Json?
+  newData   Json?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@map("audit_logs")
+}
+
+// 3NF: Favorites/Wishlist
+model Favorite {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  itemType  String   // "venue" or "caterer"
+  itemId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+
+  // Relations
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, itemType, itemId])
+  @@map("favorites")
+}

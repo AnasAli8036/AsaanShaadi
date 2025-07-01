@@ -1,0 +1,63 @@
+{"level":"info","message":"Database connected successfully","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:10:14.474Z"}
+{"level":"info","message":"Server running on port 3001","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:10:14.480Z"}
+{"level":"info","message":"Environment: development","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:10:14.480Z"}
+{"level":"info","message":"Frontend URL: http://localhost:3000","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:10:14.481Z"}
+{"level":"info","message":"Database connected successfully","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:13:42.637Z"}
+{"level":"info","message":"Server running on port 3001","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:13:42.643Z"}
+{"level":"info","message":"Environment: development","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:13:42.643Z"}
+{"level":"info","message":"Frontend URL: http://localhost:3000","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:13:42.643Z"}
+{"level":"info","message":"Database connected successfully","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:23:51.274Z"}
+{"level":"info","message":"Server running on port 3001","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:23:51.280Z"}
+{"level":"info","message":"Environment: development","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:23:51.280Z"}
+{"level":"info","message":"Frontend URL: http://localhost:3000","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:23:51.281Z"}
+{"level":"info","message":"::1 - - [27/Jun/2025:15:27:33 +0000] \"GET /api/venues?page=1&limit=12&sortBy=createdAt&sortOrder=desc HTTP/1.1\" 400 151 \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36\"","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:27:33.222Z"}
+{"level":"info","message":"::1 - - [27/Jun/2025:15:28:44 +0000] \"GET /api/venues?page=1&limit=12&sortBy=createdAt&sortOrder=desc HTTP/1.1\" 400 151 \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36\"","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:28:44.744Z"}
+{"level":"info","message":"::1 - - [27/Jun/2025:15:32:52 +0000] \"GET /api/venues?page=1&limit=12&sortBy=createdAt&sortOrder=desc HTTP/1.1\" 400 151 \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36\"","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:32:52.855Z"}
+{"level":"info","message":"Database connected successfully","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:41:15.976Z"}
+{"level":"info","message":"Database connected successfully","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:47:57.704Z"}
+{"level":"info","message":"Database connected successfully","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:48:25.264Z"}
+{"level":"info","message":"Database connected successfully","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:50:50.798Z"}
+{"level":"info","message":"Server running on port 4200","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:50:50.802Z"}
+{"level":"info","message":"Environment: development","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:50:50.803Z"}
+{"level":"info","message":"Frontend URL: http://localhost:3000","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:50:50.803Z"}
+{"level":"info","message":"::1 - - [27/Jun/2025:15:51:41 +0000] \"GET / HTTP/1.1\" 404 45 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36\"","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:51:41.830Z"}
+{"level":"info","message":"::1 - - [27/Jun/2025:15:51:42 +0000] \"GET /favicon.ico HTTP/1.1\" 404 56 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36\"","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:51:42.523Z"}
+{"level":"info","message":"Database connected successfully","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:55:24.189Z"}
+{"level":"info","message":"Server running on port 4200","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:55:24.194Z"}
+{"level":"info","message":"Environment: development","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:55:24.195Z"}
+{"level":"info","message":"Frontend URL: http://localhost:3000","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:55:24.195Z"}
+{"level":"info","message":"Database connected successfully","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:56:35.669Z"}
+{"level":"info","message":"Server running on port 4200","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:56:35.673Z"}
+{"level":"info","message":"Environment: development","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:56:35.673Z"}
+{"level":"info","message":"Frontend URL: http://localhost:3000","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:56:35.674Z"}
+{"level":"info","message":"Database connected successfully","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:57:42.546Z"}
+{"level":"info","message":"Server running on port 4200","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:57:42.554Z"}
+{"level":"info","message":"Environment: development","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:57:42.554Z"}
+{"level":"info","message":"Frontend URL: http://localhost:3000","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:57:42.555Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","service":"asaan-shaadi-backend","timestamp":"2025-06-27T15:59:40.681Z"}
+{"level":"info","message":"Database connected successfully","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:00:13.504Z"}
+{"level":"info","message":"Server running on port 4200","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:00:13.509Z"}
+{"level":"info","message":"Environment: development","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:00:13.510Z"}
+{"level":"info","message":"Frontend URL: http://localhost:3000","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:00:13.510Z"}
+{"level":"info","message":"Database connected successfully","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:01:30.491Z"}
+{"level":"info","message":"Server running on port 4200","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:01:30.500Z"}
+{"level":"info","message":"Environment: development","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:01:30.501Z"}
+{"level":"info","message":"Frontend URL: http://localhost:3000","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:01:30.501Z"}
+{"level":"info","message":"Database connected successfully","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:01:55.131Z"}
+{"level":"info","message":"Database connected successfully","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:02:20.167Z"}
+{"level":"info","message":"Server running on port 4200","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:02:20.178Z"}
+{"level":"info","message":"Environment: development","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:02:20.179Z"}
+{"level":"info","message":"Frontend URL: http://localhost:3000","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:02:20.179Z"}
+{"level":"info","message":"::1 - - [27/Jun/2025:16:03:04 +0000] \"GET /health HTTP/1.1\" 200 74 \"-\" \"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.22000.2538\"","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:03:04.909Z"}
+{"level":"info","message":"::1 - - [27/Jun/2025:16:03:56 +0000] \"GET / HTTP/1.1\" 404 45 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36\"","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:03:56.003Z"}
+{"level":"info","message":"User logged in: admin@asaanshaadi.com","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:04:22.870Z"}
+{"level":"info","message":"::1 - - [27/Jun/2025:16:04:22 +0000] \"POST /api/auth/login HTTP/1.1\" 200 513 \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36\"","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:04:22.874Z"}
+{"level":"info","message":"User logged in: admin@asaanshaadi.com","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:05:14.040Z"}
+{"level":"info","message":"::1 - - [27/Jun/2025:16:05:14 +0000] \"POST /api/auth/login HTTP/1.1\" 200 513 \"-\" \"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.22000.2538\"","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:05:14.045Z"}
+{"level":"info","message":"User logged in: admin@asaanshaadi.com","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:05:35.308Z"}
+{"level":"info","message":"::1 - - [27/Jun/2025:16:05:35 +0000] \"POST /api/auth/login HTTP/1.1\" 200 513 \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36\"","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:05:35.312Z"}
+{"level":"info","message":"User logged in: admin@asaanshaadi.com","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:06:38.156Z"}
+{"level":"info","message":"::1 - - [27/Jun/2025:16:06:38 +0000] \"POST /api/auth/login HTTP/1.1\" 200 513 \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36\"","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:06:38.161Z"}
+{"level":"info","message":"User logged in: admin@asaanshaadi.com","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:07:28.401Z"}
+{"level":"info","message":"::1 - - [27/Jun/2025:16:07:28 +0000] \"POST /api/auth/login HTTP/1.1\" 200 513 \"-\" \"axios/1.10.0\"","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:07:28.406Z"}
+{"level":"info","message":"::1 - - [27/Jun/2025:16:07:28 +0000] \"GET /api/users/profile HTTP/1.1\" 200 64 \"-\" \"axios/1.10.0\"","service":"asaan-shaadi-backend","timestamp":"2025-06-27T16:07:28.537Z"}

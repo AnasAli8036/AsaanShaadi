@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: asaan-shaadi-db
+    environment:
+      POSTGRES_DB: asaan_shaadi
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - asaan-shaadi-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: asaan-shaadi-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - asaan-shaadi-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: asaan-shaadi-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@asaanshaadi.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - asaan-shaadi-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  asaan-shaadi-network:
+    driver: bridge
